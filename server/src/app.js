@@ -12,6 +12,7 @@ const cors = require('cors');
 const MONGO_DB_KEY = process.env.MONGO_DB_KEY
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = `mongodb+srv://jnhugh23:${MONGO_DB_KEY}@cluster0.kdegi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+// const uri = `mongodb+srv://agnes_li:${MONGO_DB_KEY}@cluster0.kdegi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient 
 const client = new MongoClient(uri, {
