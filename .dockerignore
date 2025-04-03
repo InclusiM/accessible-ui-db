@@ -1,0 +1,18 @@
+# Node modules and dependencies
+client/node_modules
+server/node_modules
+
+# Environment variables
+server/.env
+
+# Version control
+.git
+.gitignore
+
+# OS generated files
+.DS_Store
+
+# Docker
+.dockerignore
+docker-compose*.yml
+Dockerfile*

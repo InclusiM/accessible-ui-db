@@ -1,0 +1,24 @@
+# docker-compose.yml
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-mevn-app
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/mevn-db
+    ports:
+      - "8080:8080"   # Client
+      - "5001:5000"   # Server -- I cannot use 5000 for some reasons...
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
