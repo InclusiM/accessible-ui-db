@@ -2,8 +2,9 @@
     <header class="site-header">
       <div class="container">
         <div class="logo">
-          <img src="@/assets/logo_image.jpg" alt="InclusiM Logo" />
-        </div>
+        <!-- Logo image removed -->
+        <!-- <img src="@/assets/logo_image.jpg" alt="InclusiM Logo" /> -->
+      </div>
         <nav class="nav-menu">
           <ul>
             <li><router-link to="/">Home</router-link></li>
@@ -25,8 +26,8 @@ export default {
   <style scoped>
   .site-header {
     width: 100%;
-    background: #fff;
-    border-bottom: 1px solid #e5e5e5;
+    background: transparent;
+    border-bottom: 1px solid transparent;
     padding: 15px 0;
     position: fixed;
     top: 0;
@@ -59,7 +60,7 @@ export default {
 
   .nav-menu a {
     text-decoration: none;
-    color: #ee3f08;
+    color: whitesmoke;
     font-weight: 500;
     padding: 8px 12px;
     border-radius: 4px;

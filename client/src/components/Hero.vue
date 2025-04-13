@@ -3,7 +3,7 @@
     <section class="hero" id="home">
       <div class="hero-overlay"></div>
       <div class="container hero-content">
-        <h1>Welcome to InclusiM</h1>
+        <h1>inclusiM</h1>
         <p>Explore the accessibility features of all your favorite apps.</p>
         <button @click="scrollToSection('resources')">Get Started</button>
       </div>
@@ -25,16 +25,17 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 .hero {
   position: relative;
-  height: 90vh;
+  height: 91vh;
   background: url('~@/assets/home_img.jpg') no-repeat center center/cover;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: whitesmoke;
   text-align: center;
-  padding-top: 60px; /* offset for fixed header */
+  padding-top: 92px; /* offset for fixed header */
 }
   .hero-overlay {
     position: absolute;
@@ -50,24 +51,29 @@ export default {
     max-width: 800px;
   }
   .hero h1 {
-    font-size: 4rem;
-    font-family: 'Inter';
-    margin-bottom: 20px;
+    font-size: 7rem;
+    font-family: 'Open Sans';
+    margin-bottom: 10px;
+    margin-top: -20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
   }
   .hero p {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     margin-bottom: 30px;
+    margin-top: 0px;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
   }
   .hero button {
-    background: #fff;
-    color: #ee3f08;
+    background:#ee3f08;
+    color: whitesmoke;
     border: none;
     padding: 15px 30px;
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
   }
   .hero button:hover {
-    background: #f0f0f0;
+    background: lightgoldenrodyellow;
   }
   </style>

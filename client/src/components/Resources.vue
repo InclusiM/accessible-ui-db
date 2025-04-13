@@ -43,7 +43,7 @@ export default {
   }
 }
 </script>
-
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
   <style scoped>
   .resources {
     padding: 80px 0;
@@ -53,6 +53,7 @@ export default {
   .resources h2 {
     font-size: 2.5rem;
     margin-bottom: 50px;
+    font: 'Bebas Neue'
   }
   .resource-grid {
     display: grid;
