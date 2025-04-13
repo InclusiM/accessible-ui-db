@@ -14,8 +14,16 @@ app.use(cors({
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-    res.send('Welcome to the InclusiM');
+  res.json({
+    appName: 'InclusiM API',
+    version: '1.0.0',
+    endpoints: [
+      { path: '/api/UIscreenshots', methods: ['GET', 'POST', 'PUT', 'DELETE'], description: 'UI screenshots management' }
+    ],
+    status: 'online',
+    timestamp: new Date()
   });
+});
 
 const UIscreenshots = require('./routes/api/UIscreenshots');
 
