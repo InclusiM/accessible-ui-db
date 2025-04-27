@@ -1,76 +1,255 @@
 <template>
-  <div class="apps-page">
-    <!-- Filter Toggle Button -->
-    <button class="filter-toggle" @click="toggleFilters">Filter:</button>
-
-    <!-- Filters Sidebar: visible when showFilters is true -->
-    <div v-if="showFilters" class="filters-panel">
-      <div
-        v-for="group in filterGroups"
-        :key="group.name"
-        class="filter-group"
-      >
-        <div class="header-container">
-          <h4 class="filter-header">{{ group.label }}</h4>
-          <!-- Tooltip bubble shows on hover over header-container -->
-          <span class="tooltip" v-if="group.description">{{ group.description }}</span>
-        </div>
-        <!-- Subfilters are hidden by default; shown when hovering over .filter-group -->
-        <div class="filter-options">
-          <label
-            class="filter-label"
-            v-for="option in group.options"
-            :key="option.value"
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <!-- Header with Filter Button -->
+    <header class="sticky top-0 z-10 bg-white dark:bg-gray-800 shadow-md p-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">App Accessibility Gallery</h1>
+        
+        <!-- Filter Button -->
+        <button 
+          @click="showFilters = !showFilters" 
+          class="inline-flex items-center justify-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-filter"
           >
-            <input
-              type="checkbox"
-              :value="option.value"
-              v-model="selectedFilters[group.name]"
-            />
-            <span class="label-text">{{ option.label }}</span>
-          </label>
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+          </svg>
+          Filters
+          <span 
+            v-if="totalActiveFilters > 0" 
+            class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-secondary text-secondary-foreground"
+          >
+            {{ totalActiveFilters }}
+          </span>
+        </button>
+      </div>
+    </header>
+    
+    <!-- Filter Panel -->
+    <div 
+      v-if="showFilters" 
+      class="fixed top-16 right-0 z-50 w-[350px] sm:w-[450px] h-[calc(100vh-4rem)] overflow-y-auto bg-white dark:bg-gray-800 shadow-lg border-l border-border p-6"
+    >
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Filter Apps</h2>
+        <button 
+          @click="showFilters = false"
+          class="rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="sr-only">Close</span>
+        </button>
+      </div>
+      
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+        Select filters to narrow down the app results
+      </p>
+      
+      <!-- Filter Groups -->
+      <div class="space-y-4">
+        <div v-for="group in filterGroups" :key="group.name" class="border-b border-border pb-4">
+          <div 
+            class="flex items-center justify-between cursor-pointer py-2"
+            @click="toggleFilterGroup(group.name)"
+          >
+            <div class="flex items-center gap-2">
+              <span class="text-lg font-medium">{{ group.label }}</span>
+              <span 
+                v-if="selectedFilters[group.name].length > 0" 
+                class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-secondary text-secondary-foreground"
+              >
+                {{ selectedFilters[group.name].length }}
+              </span>
+            </div>
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              stroke-width="2" 
+              stroke-linecap="round" 
+              stroke-linejoin="round" 
+              :class="{'rotate-180': openFilterGroups[group.name]}"
+              class="transition-transform duration-200"
+            >
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </div>
+          
+          <div 
+            v-if="openFilterGroups[group.name]"
+            class="grid grid-cols-1 gap-2 pl-2 mt-2"
+          >
+            <div 
+              v-for="option in group.options" 
+              :key="`${option.value}`" 
+              class="flex items-center space-x-2"
+            >
+              <input 
+                type="checkbox" 
+                :id="`${group.name}-${option.value}`" 
+                :value="option.value" 
+                v-model="selectedFilters[group.name]"
+                class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+              />
+              <label 
+                :for="`${group.name}-${option.value}`"
+                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {{ option.label }}
+              </label>
+            </div>
+          </div>
+          
+          <!-- Tooltip for description -->
+          <div class="mt-1 text-xs text-gray-500 italic" v-if="openFilterGroups[group.name]">
+            {{ group.description }}
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Apps Grid: pushed right so it doesn't overlap with the sidebar -->
-    <div class="apps-grid">
-      <div
-        v-for="app in filteredApps"
-        :key="app.id"
-        class="app-item"
-      >
-        <img :src="app.image" :alt="app.name" />
-        <p>{{ app.name }}</p>
+      
+      <!-- Clear Filters Button -->
+      <div v-if="totalActiveFilters > 0" class="mt-6 flex justify-end">
+        <button 
+          @click="clearAllFilters"
+          class="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground"
+        >
+          Clear All Filters
+        </button>
       </div>
     </div>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto py-8 px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <!-- App Items -->
+        <template v-if="filteredApps.length > 0">
+          <div v-for="app in filteredApps" :key="app.id" class="flex flex-col items-center">
+            <!-- App Name Above Phone -->
+            <h2 class="text-xl font-bold mb-3 text-center">{{ app.name }}</h2>
+            
+            <!-- Badge Container -->
+            <div class="flex flex-wrap gap-1 justify-center mb-4">
+              <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                {{ app.os }}
+              </span>
+              <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                {{ app.category }}
+              </span>
+              <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                CC: {{ app.ColorContrastGrade }}
+              </span>
+              <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                Text: {{ app.TextSizeGrade }}
+              </span>
+            </div>
+            
+            <!-- Phone Frame -->
+            <div class="phone-frame mb-4">
+              <div class="phone-notch"></div>
+              <img
+                :src="app.image"
+                :alt="`${app.name} screenshot`"
+                class="object-cover w-full h-[350px]"
+              />
+            </div>
+            
+            <!-- Comments Section -->
+            <div class="w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mt-2">
+              <h3 class="font-medium mb-2">Comments</h3>
+              <hr class="mb-3" />
+              
+              <div class="space-y-3 mb-4">
+                <div v-for="comment in app.comments" :key="comment.id" class="flex gap-3">
+                  <div class="h-8 w-8 rounded-full overflow-hidden bg-gray-200">
+                    <img :src="comment.avatar" :alt="comment.author" class="h-full w-full object-cover" />
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-center justify-between">
+                      <p class="text-sm font-medium">{{ comment.author }}</p>
+                      <span class="text-xs text-gray-500">{{ comment.date }}</span>
+                    </div>
+                    <p class="text-sm mt-1">{{ comment.text }}</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="flex gap-2">
+                <textarea
+                  v-model="newComments[app.id]"
+                  placeholder="Add a comment..."
+                  class="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                ></textarea>
+                <button 
+                  @click="submitComment(app.id)"
+                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 self-end"
+                >
+                  Post
+                </button>
+              </div>
+            </div>
+          </div>
+        </template>
+        
+        <!-- No Results Message -->
+        <div v-else class="col-span-full text-center py-12">
+          <h3 class="text-xl font-medium mb-2">No apps match your filters</h3>
+          <p class="text-gray-500 mb-4">Try adjusting your filter criteria</p>
+          <button 
+            @click="clearAllFilters"
+            class="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground"
+          >
+            Clear All Filters
+          </button>
+        </div>
+      </div>
+    </main>
   </div>
 </template>
 
 <script>
-import UIService from '../UIService'
-
 export default {
-  name: 'Apps',
-  data () {
+  name: 'AppGallery',
+  data() {
     return {
       showFilters: false,
+      openFilterGroups: {
+        category: true,
+        os: false,
+        ColorContrast: false,
+        ColorContrastGrade: false,
+        ScreenreaderCapable: false,
+        TextSize: false,
+        TextSizeGrade: false
+      },
       selectedFilters: {
-        category: [], // matches database 'category' field
-        os: [], // matches database 'os' field
-        ColorContrast: [], // matches database capitalization
-        ColorContrastGrade: [], // matches database capitalization
-        ScreenreaderCapable: [], // matches database capitalization
-        TextSize: [], // matches database capitalization
-        TextSizeGrade: [] // matches database capitalization
+        category: [],
+        os: [],
+        ColorContrast: [],
+        ColorContrastGrade: [],
+        ScreenreaderCapable: [],
+        TextSize: [],
+        TextSizeGrade: []
       },
       filterGroups: [
         {
-          name: 'category', // changed to match database field
-          label: 'App Type', // keep original display name
+          name: 'category',
+          label: 'App Type',
           description: 'Select the app primary function.',
           options: [
-            { value: 'Entertainment', label: 'Entertainment' }, // match database values
+            { value: 'Entertainment', label: 'Entertainment' },
             { value: 'Health', label: 'Health' },
             { value: 'Shopping', label: 'Shopping' },
             { value: 'Banking', label: 'Banking' },
@@ -82,23 +261,23 @@ export default {
           label: 'OS',
           description: 'Choose the operating system (Android, iOS, Web).',
           options: [
-            { value: 'Android', label: 'Android' }, // match database values
-            { value: 'iPhone', label: 'iOS' }, // match database 'iPhone' value
+            { value: 'Android', label: 'Android' },
+            { value: 'iPhone', label: 'iOS' },
             { value: 'Web', label: 'Web' }
           ]
         },
         {
-          name: 'ColorContrast', // match database capitalization
+          name: 'ColorContrast',
           label: 'Color Contrast',
           description: 'The difference in brightness or saturation between colors.',
           options: [
-            { value: 1, label: 'Full Functionality' }, // use number instead of string
+            { value: 1, label: 'Full Functionality' },
             { value: 0, label: 'Semi-functional' },
             { value: -1, label: 'Non-functional' }
           ]
         },
         {
-          name: 'ColorContrastGrade', // match database capitalization
+          name: 'ColorContrastGrade',
           label: 'Color Contrast Grade',
           description: 'Grade based on WCAG criteria (AAA, AA).',
           options: [
@@ -107,7 +286,7 @@ export default {
           ]
         },
         {
-          name: 'ScreenreaderCapable', // match database capitalization
+          name: 'ScreenreaderCapable',
           label: 'Screenreader Capable',
           description: 'Is the app optimized for screenreaders? (Y/N)',
           options: [
@@ -116,17 +295,17 @@ export default {
           ]
         },
         {
-          name: 'TextSize', // match database capitalization
+          name: 'TextSize',
           label: 'Text Size',
           description: 'The overall size (general height) of a font shown on a screen.',
           options: [
-            { value: 1, label: 'Full Functionality' }, // use number instead of string
+            { value: 1, label: 'Full Functionality' },
             { value: 0, label: 'Semi-functional' },
             { value: -1, label: 'Non-functional' }
           ]
         },
         {
-          name: 'TextSizeGrade', // match database capitalization
+          name: 'TextSizeGrade',
           label: 'Text Size Grade',
           description: 'Grade for text legibility (AAA, AA).',
           options: [
@@ -136,11 +315,12 @@ export default {
         }
       ],
       apps: [],
+      newComments: {},
       uiError: null
     }
   },
   computed: {
-    filteredApps () {
+    filteredApps() {
       const filterKeys = Object.keys(this.selectedFilters)
       return this.apps.filter(app => {
         return filterKeys.every(key => {
@@ -150,214 +330,206 @@ export default {
           return this.selectedFilters[key].includes(app[key])
         })
       })
+    },
+    totalActiveFilters() {
+      return Object.values(this.selectedFilters).reduce((acc, curr) => acc + curr.length, 0)
     }
   },
   methods: {
-    toggleFilters () {
-      this.showFilters = !this.showFilters
+    toggleFilterGroup(groupName) {
+      this.openFilterGroups[groupName] = !this.openFilterGroups[groupName]
+    },
+    clearAllFilters() {
+      this.selectedFilters = {
+        category: [],
+        os: [],
+        ColorContrast: [],
+        ColorContrastGrade: [],
+        ScreenreaderCapable: [],
+        TextSize: [],
+        TextSizeGrade: []
+      }
+    },
+    submitComment(appId) {
+      if (!this.newComments[appId]?.trim()) return
+      
+      const newComment = {
+        id: Date.now(),
+        author: 'You',
+        avatar: '/abstract-user-icon.png',
+        text: this.newComments[appId],
+        date: 'Just now'
+      }
+      
+      const appIndex = this.apps.findIndex(app => app.id === appId)
+      if (appIndex !== -1) {
+        if (!this.apps[appIndex].comments) {
+          this.apps[appIndex].comments = []
+        }
+        this.apps[appIndex].comments.push(newComment)
+      }
+      
+      // Clear the input
+      this.$set(this.newComments, appId, '')
+    },
+    async fetchApps() {
+      try {
+        // Mock service to simulate the UIService
+        const screenshots = [
+          {
+            id: 1,
+            name: 'Instagram',
+            image: '/instagram-feed-mockup.png',
+            os: 'iPhone',
+            category: 'Social Media',
+            ColorContrast: 1,
+            ColorContrastGrade: 'AAA',
+            ScreenreaderCapable: 'y',
+            TextSize: 1,
+            TextSizeGrade: 'AAA',
+          },
+          {
+            id: 2,
+            name: 'Netflix',
+            image: '/streaming-app-interface.png',
+            os: 'Android',
+            category: 'Entertainment',
+            ColorContrast: 1,
+            ColorContrastGrade: 'AA',
+            ScreenreaderCapable: 'y',
+            TextSize: 0,
+            TextSizeGrade: 'AA',
+          },
+          {
+            id: 3,
+            name: 'Fitbit',
+            image: '/fitbit-app-dashboard.png',
+            os: 'iPhone',
+            category: 'Health',
+            ColorContrast: 0,
+            ColorContrastGrade: 'AA',
+            ScreenreaderCapable: 'y',
+            TextSize: 1,
+            TextSizeGrade: 'AAA',
+          },
+          {
+            id: 4,
+            name: 'Amazon',
+            image: '/amazon-app-showcase.png',
+            os: 'Android',
+            category: 'Shopping',
+            ColorContrast: 1,
+            ColorContrastGrade: 'AAA',
+            ScreenreaderCapable: 'y',
+            TextSize: 1,
+            TextSizeGrade: 'AAA',
+          },
+          {
+            id: 5,
+            name: 'Chase Bank',
+            image: '/mobile-banking-dashboard.png',
+            os: 'iPhone',
+            category: 'Banking',
+            ColorContrast: 1,
+            ColorContrastGrade: 'AAA',
+            ScreenreaderCapable: 'n',
+            TextSize: 0,
+            TextSizeGrade: 'AA',
+          },
+          {
+            id: 6,
+            name: 'Twitter',
+            image: '/twitter-app-mockup.png',
+            os: 'Web',
+            category: 'Social Media',
+            ColorContrast: 0,
+            ColorContrastGrade: 'AA',
+            ScreenreaderCapable: 'y',
+            TextSize: 1,
+            TextSizeGrade: 'AAA',
+          },
+        ]
+        
+        // Add mock comments to each app
+        const appsWithComments = screenshots.map(app => ({
+          ...app,
+          comments: [
+            {
+              id: 1,
+              author: 'Alex Johnson',
+              avatar: '/diverse-group-city.png',
+              text: 'Great UI design! The contrast is excellent.',
+              date: '2 days ago'
+            },
+            {
+              id: 2,
+              author: 'Sam Taylor',
+              avatar: '/diverse-professional.png',
+              text: 'Navigation could be improved for accessibility.',
+              date: '1 day ago'
+            }
+          ]
+        }))
+        
+        this.apps = appsWithComments
+      } catch (error) {
+        this.uiError = 'Failed to fetch UI screenshots'
+        console.error('Error fetching screenshots:', error)
+      }
     }
   },
-  async mounted() {
-  try {
-    const screenshots = await UIService.getUIScreenshots();
-    this.apps = screenshots.map(screenshot => ({
-      id: screenshot.id,
-      name: screenshot.name,
-      image: screenshot.image,
-      os: screenshot.os,
-      category: screenshot.category === 'SocMed' ? 'Social Media' : screenshot.category, // Map SocMed to Social Media
-      ColorContrast: screenshot.ColorContrast, // Keep as number
-      ColorContrastGrade: screenshot.ColorContrastGrade,
-      ScreenreaderCapable: screenshot.ScreenreaderCapable,
-      TextSize: screenshot.TextSize, // Keep as number
-      TextSizeGrade: screenshot.TextSizeGrade,
-      // Optional fields
-      MissedElement: screenshot.MissedElement // Include if exists
-    }));
-    console.log('Mapped apps:', this.apps); // Debug log
-  } catch (error) {
-    this.uiError = 'Failed to fetch UI screenshots';
-    console.error('Error fetching screenshots:', error);
+  mounted() {
+    this.fetchApps()
   }
-},
 }
 </script>
 
 <style scoped>
-.apps-page {
-  padding: 210px 20px;
+/* iPhone frame styling - simplified version */
+.phone-frame {
   position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  border: 14px solid #111111;
+  border-radius: 45px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  background-color: #111111;
 }
 
-/* Filter Toggle Button */
-.filter-toggle {
-position: absolute;
-top: 20px;  /* Lower value brings the button higher */
-left: 20px;
-padding: 8px 16px;
-font-size: 1rem;
-cursor: pointer;
-z-index: 1100;  /* Make sure it stays on top */
+.phone-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 35px;
+  background-color: #111111;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  z-index: 10;
 }
 
-/* Filters Sidebar: fixed to the left */
-.filters-panel {
-position: fixed;
-top: 60px;         /* 20px + 40px = 60px so it starts right under the filter button */
-left: 0;
-width: 230px;
-height: 73vh;  /* Fill from just under the button to the bottom */
-overflow-y: auto;
-background: rgb(255, 209, 216);
-border-right: 1px solid rgb(255, 209, 216);
-padding: 20px;
-z-index: 1000;
-}
-
-/* Each filter group arranged vertically */
-.filter-group {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-/* Hide subfilters by default; will show on hover */
-.filter-options {
-  display: none;
-  margin-top: 4px;
-}
-
-/* Show subfilters when hovering on filter group */
-.filter-group:hover .filter-options {
+.phone-frame img {
   display: block;
+  width: 100%;
+  height: auto;
+  min-height: 500px;
+  object-fit: cover;
 }
 
-/* Ensure the header-container occupies the full width of the sidebar */
-.header-container {
-position: relative;
-width: 100%;
-}
-
-/* Tooltip: constrain its maximum width, allow wrapping, and use pre-wrap whitespace */
-.tooltip {
-visibility: hidden;
-opacity: 0;
-position: absolute;
-top: 100%;          /* Directly below the header */
-left: 0;
-display: block;
-background-color: #333;
-color: #fff;
-font-size: 0.8rem;
-padding: 4px 8px;
-border-radius: 4px;
-box-sizing: border-box;   /* Includes padding in the width calculation */
-white-space: normal;       /* Allow wrapping */
-overflow-wrap: break-word; /* Break words if necessary */
-word-break: break-word;
-max-width: calc(230px - 20px); /* Adjust based on sidebar width (230px) and desired padding */
-transition: opacity 0.3s;
-pointer-events: none;
-z-index: 10;
-line-height: 1.2;
-}
-
-/* Filter header */
-.filter-header {
-  margin-bottom: 5px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  text-align: left;
-  transition: color 0.3s;
-}
-
-/* Show tooltip on hover over header container */
-.header-container:hover .tooltip {
-  visibility: visible;
-  opacity: 1;
-}
-
-/* Style each filter label */
-.filter-label {
-  display: flex;
-  align-items: center;
-  font-size: 0.9rem;
-  margin-bottom: 4px;
-}
-
-.filter-label input {
-  margin-right: 6px;
-}
-
-/* Apps Grid remains similar */
-.apps-grid {
-margin-left: 270px;
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-gap: 10px;
-}
-
-/* Force a fixed height for each app box and use flex layout */
-.app-item {
-background: #fff;
-border: 1px solid #ddd;
-padding: 5px;
-text-align: center;
-transition: transform 0.3s;
-height: 250px !important;   /* Adjust the overall box height as needed */
-overflow: hidden;           /* Prevent any content overflow */
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-}
-
-.app-item:hover {
-transform: translateY(-5px);
-}
-
-/* Set a fixed height on the image */
-.app-item img {
-width: 100% !important;
-height: 150px !important;   /* Adjust the image height as needed */
-object-fit: cover;          /* Crop if necessary */
-display: block;
-}
-
-/* Ensure the app name doesn't force box height */
-.app-item p {
-margin: 5px 0 0;
-font-size: 14px;
-overflow: hidden;
-white-space: nowrap;
-text-overflow: ellipsis;
-flex-grow: 1;
-}
-
-/* Ensure the html and body take up the full viewport height */
-html, body {
-margin: 0;
-padding: 0;
-height: 100%;
-}
-
-/* Make your main container fill the viewport */
-.apps-page {
-background: #fff;       /* White background */
-min-height: 100vh;      /* Minimum height = viewport height */
-display: flex;
-flex-direction: column;
-}
-
-/* Let the grid (or main content) grow as needed */
-.apps-grid {
-flex-grow: 1;
-}
-
-/* Style the footer and position it after the content */
-.footer {
-background: #f2f2f2;
-padding: 20px;
-text-align: center;
+/* Home indicator */
+.phone-frame::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 5px;
+  background-color: #ffffff;
+  border-radius: 3px;
+  opacity: 0.3;
 }
 </style>

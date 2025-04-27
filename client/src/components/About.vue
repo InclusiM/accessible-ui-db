@@ -1,91 +1,213 @@
-<!-- src/components/About.vue -->
 <template>
-  <div class="about">
-    <h1>About Us</h1>
-    <p>This is the about page.</p>
-    
-    <!-- Server status section -->
-    <div class="server-status">
-      <h2>Server Status</h2>
-      <p>Status: {{ serverStatus.serverStatus }}</p>
-      <p v-if="serverStatus.externalStatus">External Status: {{ serverStatus.externalStatus.status }}</p>
-      <p v-if="serverStatus.error" class="error">{{ serverStatus.error }}</p>
-      
-      <!-- Raw JSON display -->
-      <div class="raw-json">
-        <h3>Server Status Data:</h3>
-        <pre>{{ JSON.stringify(serverStatus, null, 2) }}</pre>
+  <div class="about-page">
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <h1 class="title">About Us</h1>
       </div>
+    </header>
 
-      <!-- UI Screenshots Data -->
-      <div class="raw-json">
-        <h3>UI Screenshots Data:</h3>
-        <pre>{{ JSON.stringify(uiScreenshots, null, 2) }}</pre>
-        <p v-if="uiError" class="error">{{ uiError }}</p>
-      </div>
-    </div>
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Mission Section -->
+      <section class="section">
+        <h2 class="section-title">Our Mission</h2>
+        <div class="mission-box">
+          <p class="mission-text">
+            Our mission is to empower every individual by raising awareness of accessibility needs, providing tailored support for those who rely on assistive features, and advocating for inclusive design principles that ensure truly barrier-free digital experiences for all.
+          </p>
+        </div>
+      </section>
+
+      <!-- Why We're Here Section -->
+      <section class="section">
+        <h2 class="section-title">Why We're Here</h2>
+        
+        <div class="text-content">
+          <p>
+            We believe in the power of education. We equip individuals and teams with the knowledge and tools they need to understand accessibility requirements and implement practical solutions, ensuring that inclusive design becomes standard practice.
+          </p>
+          
+          <p>
+            We believe technology should unlock potential and eliminate barriers. Our work is powered by the conviction that inclusive innovation enables everyone to fully participate, contribute, and thrive in the digital world.
+          </p>
+        </div>
+        
+        <!-- Core Values - Minimal Version -->
+        <div class="values-grid">
+          <div class="value-card value-innovation">
+            <h3 class="value-title">Transparency</h3>
+            <p class="value-text">We share clear, honest information and progress to build trust and drive accountability.</p>
+          </div>
+          
+          <div class="value-card value-excellence">
+            <h3 class="value-title">Education</h3>
+            <p class="value-text">We provide concise, actionable guidance that empowers everyone to implement accessibility best practices.</p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Simple CTA -->
+      <section class="cta-section">
+        <a href="#" class="cta-button">
+          Get in Touch
+        </a>
+      </section>
+    </main>
+
+
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import UIService from '../UIService'
-
 export default {
-  name: 'About',
-  data() {
-    return {
-      serverStatus: {},
-      uiScreenshots: [],
-      uiError: null
-    }
-  },
-  async mounted() {
-    try {
-      const response = await axios.get('http://localhost:3000/api/UIscreenshots')
-      this.serverStatus = response.data
-    } catch (error) {
-      this.serverStatus = { error: 'Failed to fetch server status' }
-    }
-
-    try {
-      this.uiScreenshots = await UIService.getUIScreenshots()
-    } catch (error) {
-      this.uiError = 'Failed to fetch UI screenshots'
-    }
-  }
+  name: 'AboutPage'
 }
 </script>
 
 <style scoped>
-.about {
-  padding: 320px;
-  text-align: center;
+/* Base styles */
+.about-page {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+  line-height: 1.5;
+  min-height: 100vh;
+  background-color: #fff;
 }
 
-.server-status {
-  margin-top: 20px;
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(to right, #0d9488, #0f766e);
+  color: white;
+  padding: 24px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Main content */
+.main-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #0f766e;
+  margin-bottom: 20px;
+}
+
+/* Mission box */
+.mission-box {
+  background-color: #fff;
+  border-left: 4px solid #0d9488;
   padding: 20px;
-  border: 1px solid #ddd;
   border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.error {
-  color: red;
+.mission-text {
+  font-size: 18px;
+  margin: 0;
 }
 
-/* Add styles for JSON display */
-.raw-json {
-  margin-top: 20px;
-  text-align: left;
+/* Text content */
+.text-content p {
+  margin-bottom: 16px;
+  font-size: 16px;
 }
 
-.raw-json pre {
-  background-color: #f5f5f5;
-  padding: 10px;
+/* Values grid */
+.values-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+@media (min-width: 640px) {
+  .values-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.value-card {
+  background-color: #f9fafb;
+  padding: 20px;
   border-radius: 4px;
-  overflow-x: auto;
-  white-space: pre-wrap;
-  word-wrap: break-word;
+  border-top: 2px solid;
+}
+
+.value-innovation {
+  border-color: #0d9488;
+}
+
+.value-excellence {
+  border-color: #0d9488;
+}
+
+.value-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #0f766e;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.value-text {
+  color: #4b5563;
+  margin: 0;
+}
+
+/* CTA section */
+.cta-section {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #0d9488;
+  color: white;
+  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #0f766e;
+}
+
+/* Footer */
+.footer {
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  padding: 24px 0;
+  margin-top: 60px;
+}
+
+.copyright {
+  font-size: 14px;
+  color: whitesmoke;
+  text-align: center;
+  margin: 0;
 }
 </style>

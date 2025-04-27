@@ -1,6 +1,9 @@
 const express = require('express');
 const mongodb = require('mongodb');
 require('dotenv').config();
+const MONGO_DB_KEY = process.env.MONGO_DB_KEY || "4kKTOM1oFyLc82KH";
+const dbName = process.env.MONGO_DB_NAME || "InclusiM";
+const collectionName = process.env.MONGO_COLLECTION_NAME || "cluster0";
 
 const router = express.Router();
 
@@ -22,13 +25,18 @@ router.get('/', (req, res) => {
 async function loadUIscreenshots() {
     let client;
     try {
-        const url = `mongodb+srv://jnhugh23:${process.env.MONGO_DB_KEY}@cluster0.kdegi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-        // Remove the deprecated useNewUrlParser option
-        client = await mongodb.MongoClient.connect(url);
+        const url = `mongodb+srv://jnhugh23:${MONGO_DB_KEY}@cluster0.kdegi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
         
-        // Log database and collection names for debugging
-        const dbName = process.env.MONGO_DB_NAME || 'InclusiM';
-        const collectionName = process.env.MONGO_COLLECTION_NAME || 'cluster0';
+        const options = {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            ssl: true,
+            tls: true,
+            serverSelectionTimeoutMS: 5000,
+            maxPoolSize: 10
+        };
+        
+        client = await mongodb.MongoClient.connect(url, options);
         console.log(`Using database: ${dbName}, collection: ${collectionName}`);
         
         return client.db(dbName).collection(collectionName);
@@ -39,14 +47,21 @@ async function loadUIscreenshots() {
     }
 }
 
-// Add a route to check connection and list collections
 router.get('/check', async (req, res) => {
     let client;
     try {
-        const url = `mongodb+srv://jnhugh23:${process.env.MONGO_DB_KEY}@cluster0.kdegi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-        client = await mongodb.MongoClient.connect(
-            url, {useNewUrlParser: true}
-        )
+        const url = `mongodb+srv://jnhugh23:${MONGO_DB_KEY}@cluster0.kdegi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+        
+        const options = {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            ssl: true,
+            tls: true,
+            serverSelectionTimeoutMS: 5000,
+            maxPoolSize: 10
+        };
+        
+        client = await mongodb.MongoClient.connect(url, options);
         
         // Ping the database to check connection
         await client.db("admin").command({ ping: 1 });
@@ -62,7 +77,7 @@ router.get('/check', async (req, res) => {
         console.error('MongoDB connection check error:', error);
         res.status(500).json({ error: 'Connection error', message: error.message });
     } finally {
-        if (client) client.close();
+        if (client) await client.close();
     }
 });
 
