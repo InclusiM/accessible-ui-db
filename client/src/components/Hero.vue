@@ -3,7 +3,9 @@
   <section class="hero" id="home">
     <div class="hero-overlay"></div>
     <div class="container hero-content">
-      <h1>inclusiM</h1>
+      <h1> 
+        <img class=logo src="../assets/logo.png">
+      </h1>
       <p>Explore the accessibility features of all your favorite apps.</p>
       <button @click="scrollToSection('resources')">Get Started</button>
     </div>
@@ -64,7 +66,7 @@ padding-top: 92px; /* offset for fixed header */
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
 }
 .hero button {
-  background:#ee3f08;
+  background:#0e47a1;
   color: whitesmoke;
   border: none;
   padding: 15px 30px;
@@ -74,6 +76,12 @@ padding-top: 92px; /* offset for fixed header */
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
 }
 .hero button:hover {
-  background: lightgoldenrodyellow;
+  background: #fd4e38;
+}
+.logo {
+ display: flex;
+ justify-content: center;
+ width: 50%;
+ align-items: top;
 }
 </style>

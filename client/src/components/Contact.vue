@@ -24,22 +24,22 @@
       <!-- Contact form section -->
       <section class="contact-section">
         <div class="form-container">
-          <h2 class="section-title">Get in Touch</h2>
+          <h2 class="section-title">Comment Submission</h2>
           <form @submit.prevent="submitForm" class="contact-form">
             <!-- Form fields -->
             <div class="form-row">
               <div class="form-group">
-                <label for="first-name">First name</label>
-                <input type="text" id="first-name" name="first-name">
+                <label for="App">App</label>
+                <input type="text" id="App" name="App">
               </div>
               <div class="form-group">
-                <label for="last-name">Last name</label>
-                <input type="text" id="last-name" name="last-name">
+                <label for="Page">Page</label>
+                <input type="text" id="Page" name="Page">
               </div>
             </div>
             <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email">
+              <label for="Subject">Subject</label>
+              <input type="Subject" id="Subject" name="Subject">
             </div>
             <div class="form-group">
               <label for="message">Message</label>
@@ -129,7 +129,7 @@ html, body {
 }
 
 .header {
-  background: linear-gradient(to right, #0d9488, #0f766e);
+  background: linear-gradient(to right, #006cff, #0e47a1);
   color: white;
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -168,11 +168,11 @@ html, body {
 .icon {
   font-size: 1.25rem;
   margin-right: 0.75rem;
-  color: #007ACC;
+  color: #0e47a1;
 }
 
 .contact-link {
-  color: #007ACC;
+  color: #0e47a1;
   text-decoration: none;
   font-size: 1rem;
   line-height: 1.4;
@@ -201,7 +201,7 @@ html, body {
 .section-title {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #0f766e;
+  color: #006cff;
   margin-bottom: 1rem;
 }
 
@@ -217,7 +217,7 @@ html, body {
   border-radius: 0.375rem;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border-top: 3px solid #0d9488;
+  border-top: 3px solid #006cff;
 }
 
 .team-image-container {
@@ -247,7 +247,7 @@ html, body {
 
 .team-position {
   font-size: 0.875rem;
-  color: #0d9488;
+  color: #0e47a1;
   margin: 0 0 0.5rem 0;
 }
 
@@ -314,7 +314,7 @@ html, body {
 }
 
 .submit-button {
-  background: linear-gradient(to right, #0d9488, #0f766e);
+  background: linear-gradient(to right, #0e47a1,#0e47a1 );
   color: white;
   border: none;
   padding: 0.5rem 1rem;

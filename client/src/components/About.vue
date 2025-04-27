@@ -83,7 +83,7 @@ export default {
 
 /* Header */
 .header {
-  background: linear-gradient(to right, #0d9488, #0f766e);
+  background: linear-gradient(to right, #006cff, #0e47a1);
   color: white;
   padding: 24px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -109,14 +109,14 @@ export default {
 .section-title {
   font-size: 20px;
   font-weight: 500;
-  color: #0f766e;
+  color: #006cff;
   margin-bottom: 20px;
 }
 
 /* Mission box */
 .mission-box {
   background-color: #fff;
-  border-left: 4px solid #0d9488;
+  border-left: 4px solid #006cff;
   padding: 20px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -155,17 +155,17 @@ export default {
 }
 
 .value-innovation {
-  border-color: #0d9488;
+  border-color: #006cff;
 }
 
 .value-excellence {
-  border-color: #0d9488;
+  border-color: #006cff;
 }
 
 .value-title {
   font-size: 18px;
   font-weight: 500;
-  color: #0f766e;
+  color: #006cff;
   margin-top: 0;
   margin-bottom: 10px;
 }
@@ -183,7 +183,7 @@ export default {
 
 .cta-button {
   display: inline-block;
-  background-color: #0d9488;
+  background-color: #006cff;
   color: white;
   font-weight: 500;
   padding: 12px 24px;
@@ -193,7 +193,7 @@ export default {
 }
 
 .cta-button:hover {
-  background-color: #0f766e;
+  background-color: #006cff;
 }
 
 /* Footer */
