@@ -28,7 +28,7 @@ name: 'Header'
   width: 100%;
   background: transparent;
   border-bottom: 1px solid transparent;
-  padding: 15px 0;
+  padding: 15px ;
   position: fixed;
   top: 0;
   z-index: 1000;
@@ -47,10 +47,10 @@ name: 'Header'
   height: 40px;
 }
 
+
 .nav-menu ul {
   list-style: none;
   margin: 0;
-  padding: 0;
   display: flex;
 }
 

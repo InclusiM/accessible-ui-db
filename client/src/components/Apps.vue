@@ -104,7 +104,7 @@
             
             <!-- Comments Section -->
             <div class="comments-section">
-              <h3 class="comments-title">Further Consideration</h3>
+              <h3 class="comments-title">Further Considerations</h3>
               <hr class="divider" />
               
               <div class="comments-list">

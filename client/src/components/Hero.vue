@@ -1,11 +1,12 @@
-<!-- src/components/Hero.vue -->
+<!-- src/views/Apps.vue -->
 <template>
   <section class="hero" id="home">
+    <!-- Logo at top-left -->
+    <img :src="logo" alt="InclusiM Logo" class="hero-logo" />
+
     <div class="hero-overlay"></div>
     <div class="container hero-content">
-      <h1> 
-        <img class=logo src="../assets/logo.png">
-      </h1>
+      <h1>inclusiM</h1>
       <p>Explore the accessibility features of all your favorite apps.</p>
       <button @click="scrollToSection('resources')">Get Started</button>
     </div>
@@ -13,32 +14,47 @@
 </template>
 
 <script>
+import logo from '@/assets/logo.png'
+
 export default {
-name: 'Hero',
-methods: {
-  scrollToSection (sectionId) {
-    const el = document.getElementById(sectionId)
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
+  name: 'Hero',
+  data() {
+    return { logo }
+  },
+  methods: {
+    scrollToSection (sectionId) {
+      const el = document.getElementById(sectionId)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+      }
     }
   }
-}
 }
 </script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 .hero {
-position: relative;
-height: 91vh;
-background: url('~@/assets/home_img.jpg') no-repeat center center/cover;
-display: flex;
-align-items: center;
-justify-content: center;
-color: whitesmoke;
-text-align: center;
-padding-top: 92px; /* offset for fixed header */
+  position: relative;
+  height: 91vh;
+  background: url('~@/assets/home_img.jpg') no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: whitesmoke;
+  text-align: center;
+  padding-top: 92px; /* offset for fixed header */
 }
+
+.hero-logo {
+  position: absolute;
+  top: 15px;
+  left: 50px;
+  width: 150px; /* adjust as needed */
+  height: auto;
+  z-index: 2;
+}
+
 .hero-overlay {
   position: absolute;
   top: 0;
@@ -54,15 +70,16 @@ padding-top: 92px; /* offset for fixed header */
 }
 .hero h1 {
   font-size: 7rem;
-  font-family: 'Open Sans';
-  margin-bottom: 10px;
-  margin-top: -20px;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  letter-spacing: -2px;
 }
 .hero p {
   font-size: 1.3rem;
   margin-bottom: 30px;
   margin-top: 0px;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
 }
 .hero button {
@@ -77,11 +94,5 @@ padding-top: 92px; /* offset for fixed header */
 }
 .hero button:hover {
   background: #fd4e38;
-}
-.logo {
- display: flex;
- justify-content: center;
- width: 50%;
- align-items: top;
 }
 </style>

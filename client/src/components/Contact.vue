@@ -54,7 +54,7 @@
           <div class="contact-card">
     <div class="contact-item">
       <span class="icon">📞</span>
-      <a href="tel:+12075551234" class="contact-link">(860) 335-5176</a>
+      <a href="tel:+12075551234" class="contact-link">(860) 345-667</a>
     </div>
     <div class="contact-item">
       <span class="icon">✉️</span>
