@@ -78,31 +78,31 @@ const teamMembers = ref([
     name: 'Jonny Hughes',
     position: 'Backend Development',
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image000000.jpg-RA7u0kexNUGHAzCCLiAV6qrzA5ocor.jpeg',
-    bio: 'Jonny is our backend developer with experience in Javascript, ....'
+
   },
   {
     name: 'Yixin (Agnes) Li',
     position: 'Backend and Frontend Connection',
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/imagejpeg_0.jpg-VpArwK91KT25Jaeu1AQTh50Bh9lyD9.jpeg',
-    bio: 'Agnes has an expertise in....'
+    
   },
   {
     name: 'Maya Sutton-Hall',
     position: 'Frontend Development',
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/yu.JPG-yjrzX8YxSjFflhJGLyLulgVIrhoMne.jpeg',
-    bio: 'Maya...'
+    
   },
   {
-    name: 'Yamin Ahmed',
+    name: 'Yamin Ghowrwal',
     position: 'Artificial Intelligence / Machine Learning Operations Engineer',
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/yamin-tqU7go3nsGKlUuLTQ1ZYM1RS6oFFXo.jpeg',
-    bio: 'Yamin has....'
+    
   },
   {
     name: 'Dr. Stacy Doore',
     position: 'Professor of Computer Science',
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/stacy-79zHv6IO1QkSSlbBI8uloRyVAwz5NS.webp',
-    bio: 'Professor Doore has been....'
+    
   }
 ]);
 

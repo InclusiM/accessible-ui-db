@@ -96,7 +96,16 @@
             <div class="phone-frame">
               <div class="phone-notch"></div>
               <img
-                :src="app.image"
+                :src="app.id === 1 ? require ('@/assets/gmail_img.png') :
+                      app.id === 2 ? require('@/assets/japan_img.png') : 
+                      app.id === 3 ? require('@/assets/workday_img.png') : 
+                      app.id === 4 ? require('@/assets/walmart_img.png') :
+                      app.id === 5 ? require('@/assets/maps_img.png') :
+                      app.id === 6 ? require('@/assets/grocery_img.png') :
+                      app.id === 7 ? require('@/assets/football_img.png') :
+                      app.id === 8 ? require('@/assets/airbnb_img.png') :
+                      app.id === 9 ? require('@/assets/sub_img.png') :
+                 app.image" 
                 :alt="`${app.name} screenshot`"
                 class="app-screenshot"
               />
