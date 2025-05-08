@@ -1,9 +1,15 @@
 const express = require('express');
 const mongodb = require('mongodb');
-require('dotenv').config();
-const MONGO_DB_KEY = process.env.MONGO_DB_KEY || "4kKTOM1oFyLc82KH";
-const dbName = process.env.MONGO_DB_NAME || "InclusiM";
-const collectionName = process.env.MONGO_COLLECTION_NAME || "cluster0";
+const path = require('path')
+require('dotenv').config({path: path.resolve(__dirname, '../../.env')});
+// console.log(path.resolve(__dirname, '../../.env'));
+const MONGO_DB_KEY = process.env.MONGO_DB_KEY ;
+const dbName = process.env.MONGO_DB_NAME ;
+const collectionName = process.env.MONGO_COLLECTION_NAME ;
+// console.log(MONGO_DB_KEY);
+// console.log(dbName);
+// console.log(collectionName);  
+
 
 const router = express.Router();
 
