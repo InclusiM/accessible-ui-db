@@ -9,7 +9,7 @@ const app = express();
 // Middleware
 // Configure CORS with specific options
 app.use(cors({
-  origin: ['http://localhost:8080'], 
+  origin: ['http://localhost:8080','http://137.146.29.181:8041'], 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true 
 }));
