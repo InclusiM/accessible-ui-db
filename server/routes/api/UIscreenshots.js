@@ -3,7 +3,7 @@ const mongodb = require('mongodb');
 const path = require('path')
 require('dotenv').config({path: path.resolve(__dirname, '../../.env')});
 // console.log(path.resolve(__dirname, '../../.env'));
-const MONGO_DB_KEY = process.env.MONGO_DB_KEY ;
+const MONGO_DB_KEY = process.env.MONGO_DB_KEY;
 const dbName = process.env.MONGO_DB_NAME ;
 const collectionName = process.env.MONGO_COLLECTION_NAME ;
 // console.log(MONGO_DB_KEY);
