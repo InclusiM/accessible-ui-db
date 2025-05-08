@@ -1,8 +1,7 @@
 import axios from "axios";
 
-const url = process.env.NODE_ENV === 'development' 
-? 'http://localhost:3000/api/UIscreenshots'
-: 'http://137.146.29.181:3011/api/UIscreenshots';
+const url = 'http://137.146.29.181:3011/api/UIscreenshots';
+// 'http://localhost:3000/api/UIscreenshots'
 
 class UIService {
     static async getUIScreenshots() {
