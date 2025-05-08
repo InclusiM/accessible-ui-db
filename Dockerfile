@@ -21,4 +21,4 @@ COPY . .
 EXPOSE 3000 8080
 
 # Start both applications
-CMD ["sh", "-c", "npm run dev & cd client && npm run serve"]
+CMD ["sh", "-c", "npm run dev -- --host 0.0.0.0 && cd client && npm run serve -- --host 0.0.0.0"]
