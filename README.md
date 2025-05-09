@@ -1,6 +1,6 @@
 # Accessing the Website
 
-in yli25 folder in the VM, goto accessible-ui-db folder, run the following command:
+in ```yli25``` folder in the VM, go to ```accessible-ui-db``` folder, run the following command:
 ## Running the Application
 
 1. Build Docker Image
